@@ -23,8 +23,8 @@ Qualtrics.SurveyEngine.addOnload(function() {
   widget.appendChild(canvas);
 
   var communities = [];
-  var lat = 53; // just use some default values for now...
-  var lon = -1;
+  var lat = -33.45; // just use some default values for now...
+  var lon = -70.66;
   var zoom = 6;
 
   var center = new google.maps.LatLng(lat, lon);
