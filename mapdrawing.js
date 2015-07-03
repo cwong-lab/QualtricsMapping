@@ -1,17 +1,15 @@
 Qualtrics.SurveyEngine.addOnload(function() {
-  // This enables a respondent to draw on the map and records the coordinates of their drawing. //
-  // by the great Mark Fredrickson //
   var address = this;
-
+  
   // polygon defaults
   var polycolor = "#000000"; // black turns grey with opacity
   var fillopacity = 0.5;
   var strokeweight = 1;
-
+   
   var makeButton = function(text) {
     return($j("<a class = 'drawing-button'><span class = 'ui-button-text'>" + text + "</span></a>"))
   }
-
+  
   var widget = document.createElement("div");
   widget.setAttribute('style', 'position: absolute; width: 100%; height: 100%; margin: auto; text-align: center; top: 0px;');
   document.body.appendChild(widget);
@@ -19,32 +17,32 @@ Qualtrics.SurveyEngine.addOnload(function() {
   var canvas = document.createElement("div");
   canvas.id = 'map_canvas';
   canvas.setAttribute('style', 'width: 100%; height: 400px; margin: 10px auto;');
-
+  
   widget.appendChild(canvas);
 
   var communities = [];
-  var lat = -33.45; // just use some default values for now...
-  var lon = -70.66;
+  var lat = 53; // just use some default values for now...
+  var lon = -1;
   var zoom = 6;
 
   var center = new google.maps.LatLng(lat, lon);
   var options = {center: center,
-    zoom: zoom,
-    mapTypeId: google.maps.MapTypeId.ROADMAP,
-    scrollwheel: false,
-    maxZoom: 17,
-    minZoom: 4,
-    streetViewControl: false};
+                zoom: zoom,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                scrollwheel: false,
+                maxZoom: 17,
+                minZoom: 4,
+                streetViewControl: false};
 
   var map = new google.maps.Map(canvas,
-      options);
+                                options);
 
   var drawingManager = new google.maps.drawing.DrawingManager({
-    drawingControl: false,
-    drawingControlOptions: {
-      drawingModes: [google.maps.drawing.OverlayType.POLYGON]
-    },
-    polygonOptions: { editable: true }
+      drawingControl: false,
+      drawingControlOptions: {
+          drawingModes: [google.maps.drawing.OverlayType.POLYGON]
+      },
+      polygonOptions: { editable: true }
   });
   drawingManager.setMap(map);
   drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON); // start the user in drawing mode
@@ -53,8 +51,8 @@ Qualtrics.SurveyEngine.addOnload(function() {
 
   var mkButton = function(txt) {
 
-    var style = "font-size: " + Math.ceil(0.025 * Math.min($j(document).width(), $j(document).height())) + "px;";
-    return($j("<div class = 'mapbutton' style = '" + style + "'><b>" + txt + "</b></div>"));
+      var style = "font-size: " + Math.ceil(0.025 * Math.min($j(document).width(), $j(document).height())) + "px;";
+      return($j("<div class = 'mapbutton' style = '" + style + "'><b>" + txt + "</b></div>"));
   }
 
   var resetButton = mkButton("Reset");
@@ -63,35 +61,35 @@ Qualtrics.SurveyEngine.addOnload(function() {
   var drawButton  = mkButton("Draw");
 
   var startDrawing = function() {
-    stopToggle = false; // just to be sure
-    drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
-    drawButton.hide();
-    abortButton.show();
+      stopToggle = false; // just to be sure
+      drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
+      drawButton.hide();
+      abortButton.show();
   }
 
   var stopDrawing = function() {
-    drawingManager.setDrawingMode(null);
-    drawButton.show();
-    abortButton.hide();
+      drawingManager.setDrawingMode(null);
+      drawButton.show();
+      abortButton.hide();
   }
-
+                               
   resetButton.click(function() {
-    $j.each(communities, function(idx, c) { c.setMap(null); })
+      $j.each(communities, function(idx, c) { c.setMap(null); })
       communities = [];
-    stopToggle = true;
-    stopDrawing();
-    return(false);
+      stopToggle = true;
+      stopDrawing();
+      return(false);
   });
-
+                               
   doneButton.click(function() {
-    stopToggle = true;
-    stopDrawing();
-    // $j("form").submit();
+      stopToggle = true;
+      stopDrawing();
+      // $j("form").submit();
 
     var asString = $j.map(communities,
-	function(p) {
-	  return($j.map(p.getPath().getArray(), function(i) {
-	    return(i.lng() + " " + i.lat()); }).join(',')) }).join(';');
+                         function(p) {
+                           return($j.map(p.getPath().getArray(), function(i) {
+                             return(i.lng() + " " + i.lat()); }).join(',')) }).join(';');
 
     Qualtrics.SurveyEngine.setEmbeddedData("MapDrawing", asString);
     address.clickNextButton();
@@ -120,49 +118,48 @@ Qualtrics.SurveyEngine.addOnload(function() {
       drawingManager,
       'polygoncomplete',
       function(poly) {
-	if (!stopToggle) {
+          if (!stopToggle) {
 
-	  // save the polygon to the array of drawings
-	  communities.push(poly);
-	  stopToggle = false;
+              // save the polygon to the array of drawings
+              communities.push(poly);
+              stopToggle = false;
 
-	  google.maps.event.addListener(poly, 'click', function(e) {
-	    if (popupmutex) {
-	      popupmutex = false;
-	      // Note: might be slightly more efficient to create the window
-	      // once, rather than for each click.
-	      var content = $j("<div class = 'delete-community'></div>").addClass("polygon-popup");
-	      content.append($j("<p>Do you want to delete this community?</p>"));
-	      var buttons = $j("<p></p>");
-	      buttons.append(
-		  makeButton("Yes").click(function() {
-		    // TODO: remove poly from list of polys
-		    communities = $j.grep(communities, function(e,i) { return e !== poly; })
-		      poly.setMap(null);
-		    popup.close();
-		    popupmutex = true;
-		  }));
-	      buttons.append(makeButton("No").click(function() {
-		popup.close();
-		popupmutex = true;
-		return(false);
-	      }));
-	      content.append(buttons);
-	      content.append("<div>");
+              google.maps.event.addListener(poly, 'click', function(e) {
+                  if (popupmutex) {
+                      popupmutex = false;
+                      // Note: might be slightly more efficient to create the window
+                      // once, rather than for each click.
+                      var content = $j("<div class = 'delete-community'></div>").addClass("polygon-popup"); 
+                      content.append($j("<p>Do you want to delete this community?</p>"));
+                      var buttons = $j("<p></p>");
+                      buttons.append(
+                          makeButton("Yes").click(function() {
+                              // TODO: remove poly from list of polys
+                              communities = $j.grep(communities, function(e,i) { return e !== poly; }) 
+                              poly.setMap(null);
+                              popup.close();
+                              popupmutex = true;
+                          }));
+                      buttons.append(makeButton("No").click(function() {
+                          popup.close();
+                          popupmutex = true;
+                          return(false);
+                      }));
+                      content.append(buttons);
+                      content.append("<div>");
 
-	      var popup = new google.maps.InfoWindow({content: content[0], position: e.latLng});
+                      var popup = new google.maps.InfoWindow({content: content[0], position: e.latLng});
 
-	      google.maps.event.addListener(popup, "closeclick", function() {
-		popupmutex = true;
-	      });
-	      popup.open(map);
-	    }
-	  });
-	} else {
-	  poly.setMap(null); // discard the poly because the user click abort/reset/etc.
-	}
-	stopToggle = false;
-      });
+                      google.maps.event.addListener(popup, "closeclick", function() {
+                          popupmutex = true;
+                      });
+                      popup.open(map);
+                  }
+          });
+      } else {
+          poly.setMap(null); // discard the poly because the user click abort/reset/etc.
+      }
+    stopToggle = false;
+  });
 });
-
 
