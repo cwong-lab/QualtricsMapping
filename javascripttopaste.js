@@ -1,6 +1,7 @@
 Qualtrics.SurveyEngine.addOnload(function() {
 	  // This enables a respondent to draw on the map and records the coordinates of their drawing. //
   // by the great Mark Fredrickson //
+	///Paste into a Javascript block in a qualtrics question (gear symbol, add javascript)
 
 	var postalcode = "${e://loc/PostalCode}"
 	
