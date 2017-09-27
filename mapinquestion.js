@@ -1,4 +1,10 @@
 Qualtrics.SurveyEngine.addOnload(function() {
+	  // This enables a respondent to draw on the map and records the coordinates of their drawing. //
+  // by the great Mark Fredrickson //
+	///Paste into a Javascript block in a qualtrics question (gear symbol, add javascript)
+
+	var postalcode = "${e://loc/PostalCode}"
+	
   var address = this;
   
   // polygon defaults
@@ -11,12 +17,12 @@ Qualtrics.SurveyEngine.addOnload(function() {
   }
   
   var widget = document.createElement("div");
-  widget.setAttribute('style', 'position: absolute; width: 100%; height: 100%; margin: auto; text-align: center; top: 0px;');
-  document.body.appendChild(widget);
+  widget.setAttribute('style', 'width: 100%; height: 80%; margin: auto; text-align: center;');
+  document.querySelector('[role="main"]').appendChild(widget);
 
   var canvas = document.createElement("div");
   canvas.id = 'map_canvas';
-  canvas.setAttribute('style', 'width: 100%; height: 400px; margin: 10px auto;');
+  canvas.setAttribute('style', 'width: 90%; height: 400px; margin: 100px auto;');
   
   widget.appendChild(canvas);
 
@@ -162,4 +168,3 @@ Qualtrics.SurveyEngine.addOnload(function() {
     stopToggle = false;
   });
 });
-
