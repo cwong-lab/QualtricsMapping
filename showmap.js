@@ -39,7 +39,7 @@ Qualtrics.SurveyEngine.addOnload(function() {
 
     }); 
 
-    var map = staticMap(canvas, bounds.getCenter());
+    var map = staticMap(canvas[0], bounds.getCenter());
 
     map.fitBounds(bounds);
     $j.each(polygons, function(idx, p) {
