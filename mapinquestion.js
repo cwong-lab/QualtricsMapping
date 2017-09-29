@@ -1,9 +1,6 @@
 Qualtrics.SurveyEngine.addOnload(function() {
 	  // This enables a respondent to draw on the map and records the coordinates of their drawing. //
   // by the great Mark Fredrickson //
-	///Paste into a Javascript block in a qualtrics question (gear symbol, add javascript)
-
-	var postalcode = "${e://loc/PostalCode}"
 	
   var address = this;
   
@@ -18,7 +15,7 @@ Qualtrics.SurveyEngine.addOnload(function() {
   
   var widget = document.createElement("div");
   widget.setAttribute('style', 'width: 100%; height: 80%; margin: auto; text-align: center;');
-  document.querySelector('[role="main"]').appendChild(widget);
+  $(address.getQuestionContainer()).append(widget);
 
   var canvas = document.createElement("div");
   canvas.id = 'map_canvas';
@@ -27,8 +24,8 @@ Qualtrics.SurveyEngine.addOnload(function() {
   widget.appendChild(canvas);
 
   var communities = [];
-  var lat = 53; // just use some default values for now...
-  var lon = -1;
+	var lat = "${e://Field/lat}";
+	var lon = "${e://Field/lon}";
   var zoom = 6;
 
   var center = new google.maps.LatLng(lat, lon);
