@@ -2,6 +2,16 @@ Qualtrics.SurveyEngine.addOnload(function() {
 	  // This enables a respondent to draw on the map and records the coordinates of their drawing. //
   // by the great Mark Fredrickson //
 	
+  var postalcode = "${e://loc/PostalCode}"
+  
+  //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+ function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
+}
+  var zoom =getRandomIntInclusive(10,20);
+	
   var address = this;
   
   // polygon defaults
@@ -26,14 +36,14 @@ Qualtrics.SurveyEngine.addOnload(function() {
   var communities = [];
 	var lat = "${e://Field/lat}";
 	var lon = "${e://Field/lon}";
-  var zoom = 6;
+  // var zoom = 6;
 
   var center = new google.maps.LatLng(lat, lon);
   var options = {center: center,
                 zoom: zoom,
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 scrollwheel: false,
-                maxZoom: 17,
+                maxZoom: 20,
                 minZoom: 4,
                 streetViewControl: false};
 
@@ -94,6 +104,7 @@ Qualtrics.SurveyEngine.addOnload(function() {
                            return($j.map(p.getPath().getArray(), function(i) {
                              return(i.lng() + " " + i.lat()); }).join(',')) }).join(';');
 
+	Qualtrics.SurveyEngine.setEmbeddedData("zoom", zoom);
     Qualtrics.SurveyEngine.setEmbeddedData("MapDrawing", asString);
     address.clickNextButton();
   });
