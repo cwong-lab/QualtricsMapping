@@ -4,14 +4,14 @@ This repository contains the javascript and other files for the Mapping Local Co
 
 The survey itself occurs in Qualtrics. The javascript has to be cut and pasted into the Javascript areas within Qualtrics.
 
-![](https://github.com/bowers-illinois-edu/mlcc-chile/blob/master/doc/mlccqualtricsinstructions.png)
+![](https://github.com/bowers-illinois-edu/mlcc-chile/blob/master/images/mlccqualtricsinstructions.png)
 
 
-![](https://github.com/bowers-illinois-edu/mlcc-chile/blob/master/doc/surveyflow.png)
+![](https://github.com/bowers-illinois-edu/mlcc-chile/blob/master/images/surveyflow.png)
 
 
-![](https://github.com/bowers-illinois-edu/mlcc-chile/blob/master/doc/geocodeanddraw.png)
+![](https://github.com/bowers-illinois-edu/mlcc-chile/blob/master/images/geocodeanddraw.png)
 
 
-![](https://github.com/bowers-illinois-edu/mlcc-chile/blob/master/doc/showmapinquestion.png)
+![](https://github.com/bowers-illinois-edu/mlcc-chile/blob/master/images/showmapinquestion.png)
 
