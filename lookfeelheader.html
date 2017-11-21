@@ -6,7 +6,9 @@
     } else {
         var script = document.createElement("script");
         script.type = "text/javascript";
-        script.src = "https://maps.googleapis.com/maps/api/js?key=YOURGOOGLEMAPKEY&sensor=true&libraries=drawing&language=es&region=CL";
+	    <!-- Uncomment out the next line for a Spanish language, Chile localized map (i.e. geocoding will be restricted to Chile)
+	    <!--   script.src = "https://maps.googleapis.com/maps/api/js?key=YOURGOOGLEMAPKEY&sensor=true&libraries=drawing&language=es&region=CL"; -->
+        script.src = "https://maps.googleapis.com/maps/api/js?key=YOURGOOGLEMAPKEY&sensor=true&libraries=drawing";
         document.body.appendChild(script);
     }
 
