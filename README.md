@@ -1,4 +1,6 @@
-# Mapping Local Communities Chile (MLCC) Javascript and Qualtrics Project
+---
+title: Mapping Local Communities Chile (MLCC) Javascript and Qualtrics Project
+---
 
 This repository contains the javascript and other files for the Mapping Local Communities Chile project. 
 
